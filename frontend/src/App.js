@@ -1,10 +1,12 @@
-
+import React from "react";
+import { BrowserRouter } from "react-router-dom";
+import Layout from "./components/layout/Layout";
 function App() {
-  return (
-    <div className="App">
-      Main page
-    </div>
-  );
+    return (
+        <BrowserRouter>
+            <Layout />
+        </BrowserRouter>
+    );
 }
 
 export default App;
