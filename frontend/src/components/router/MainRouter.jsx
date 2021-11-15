@@ -4,9 +4,10 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import { LOGIN_PATH } from "../../utils/consts/routerConsts";
 import { nonAuthorizedRoutes } from "../../routes/nonAuhorizedRoutes";
 import { authorizedRoutes } from "../../routes/authorizedRoutes";
+import { getAuthorized } from "../../store/authorizationStore/authorizationSelectors";
 
 export default function MainRouter() {
-    const authorized = false;
+    const authorized = useSelector(getAuthorized);
     return (
         <Switch>
             {authorized &&
