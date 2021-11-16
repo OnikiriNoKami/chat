@@ -9,4 +9,4 @@ const userAddressMessagesSchema = new mongoose.Schema({
     }]
 })
 
-export default userAddressMessagesSchema;
+export default mongoose.model('UserAddressMesagess', userAddressMessagesSchema);
