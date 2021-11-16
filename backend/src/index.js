@@ -4,6 +4,7 @@ import cors from "cors";
 import http from "http";
 //import path from "path";
 import ioServer from './socket';
+import connectToMongo from './api/database';
 
 const app = express();
 const server = http.createServer(app);
@@ -14,6 +15,7 @@ app.use(cors());
 app.use(express.json());
 
 async function start(){
+    connectToMongo();
     server.listen(PORT, ()=>{
         console.log(`Server listening on ${PORT}.`);
     })
