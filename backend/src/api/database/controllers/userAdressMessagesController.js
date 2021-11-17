@@ -12,6 +12,16 @@ const userAddressMessagesController = {
             console.log(error.message);
             return error
         }
+    },
+    delete: async(userAddressId) => {
+        if(!userAddressId) return new Error('No id provided.');
+        try{
+            const result = UserAddressMessages.findByIdAndDelete(userAddressId);
+            return result;
+        } catch (error){
+            console.log(error.mesage)
+            return error;
+        }
     }
 }
 
