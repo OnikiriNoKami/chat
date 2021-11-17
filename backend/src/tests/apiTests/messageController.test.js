@@ -1,4 +1,5 @@
 require("dotenv").config();
+import mongoose from 'mongoose';
 import connectToMongo from "../../api/database";
 import messageController from "../../api/database/controllers/messageController";
 
@@ -57,4 +58,8 @@ describe("Message controller tests.", () => {
         expect(result.length).toBe(1);
         expect(result[0]._id.toString()).toEqual("6194fc696bcd70cdcb5e1a55");
     });
+
+    afterAll(async () => {
+        await mongoose.connection.close();        
+    })
 });
