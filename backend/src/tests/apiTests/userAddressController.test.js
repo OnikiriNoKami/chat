@@ -46,6 +46,18 @@ describe('User address messages controller tests.', () => {
         expect(result.messages.some(message => message.messageId.toString() === messageId)).toBeFalsy();
     })
 
+    test("Getting by user", async () => {
+        const result = await userAddressMessagesController.getByUser('TestUser1');
+        expect(result).not.toBeFalsy();
+        expect(result.length).toBe(2);
+    })
+
+    test("Getting by user and address", async () => {
+        const result = await userAddressMessagesController.getByUserAndAddress({user:'TestUser1', address:'TestAddress2'})
+        expect(result).not.toBeFalsy();
+        expect(result._id.toString()).toEqual('61951f5fc3e7465a6cffffa5');
+    })
+
     afterAll(async () => {
         await mongoose.connection.close()
     })
