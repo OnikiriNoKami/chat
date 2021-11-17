@@ -11,4 +11,12 @@ async function connectToMongo() {
     }
 }
 
+export async function disconnectFromMongo(){
+    try{
+        await mongoose.connection.close();
+    } catch (e){
+        console.log(e.message);
+    }
+}
+
 export default connectToMongo;
