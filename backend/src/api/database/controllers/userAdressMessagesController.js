@@ -68,7 +68,27 @@ const userAddressMessagesController = {
             console.log(error.message);
             return error;
         }
-    }
+    },
+    getByUserAndAddress: async ({user, address}) => {
+        if(!user || !address) return new Error("No data provided.");
+        try{
+            const result = await UserAddressMessages.findOne({user, address});
+            return result;
+        } catch (error){
+            console.log(error.message);
+            return error;
+        }
+    },
+    getByUser: async(user) => {
+        if(!user) return new Error("No user provided");
+        try{
+            const result = await UserAddressMessages.find({user});
+            return result;
+        } catch(error){
+            console.log(error.message);
+            return error
+        }
+    },
 };
 
 export default userAddressMessagesController;
