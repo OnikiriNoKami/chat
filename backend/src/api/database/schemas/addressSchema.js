@@ -7,4 +7,4 @@ const addressSchema = new mongoose.Schema(
     { timestamps: true }
 );
 
-export default addressSchema;
+export default mongoose.model('Address', addressSchema);

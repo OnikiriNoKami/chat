@@ -5,4 +5,4 @@ const userSchema = new mongoose.Schema({
     email: { type: String, required: true },
 })
 
-export default userSchema;
+export default mongoose.model("ChatUser", userSchema);
