@@ -1,6 +1,6 @@
 import Client from "socket.io-client";
 
-describe("Socket controller tests.", () => {
+describe("User socket controller tests.", () => {
     let displayName, email;
 
     beforeEach(()=>{
