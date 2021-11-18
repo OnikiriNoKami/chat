@@ -1,3 +1,4 @@
+import userSocketController from "./userSocketController/userSocketController";
 
 const socketController = (socket) => {
     console.log('New connection, id:', socket.id);
@@ -7,6 +8,7 @@ const socketController = (socket) => {
     socket.on('hello', ()=>{
         socket.emit('hello', 'world');
     })
+    userSocketController(socket);
 }
 
 export default socketController;
