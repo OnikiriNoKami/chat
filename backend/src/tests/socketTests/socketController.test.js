@@ -4,13 +4,19 @@ describe("Socket controller tests.", () => {
     let clientSocket;
     beforeAll((done) => {
         const port = process.env.APP_PORT || 4332;
-        clientSocket = new Client(`http://localhost:${port}`);
+        clientSocket = new Client(`http://localhost:${port}`, {
+            auth: {
+                displayName: "TestUser",
+                email: "testUser@email.com",
+            }
+        });
         clientSocket.on("connect", done);
     });
 
     afterAll(() => {
         clientSocket.close();
     });
+
     test("Getting id from socket", (done) => {
         clientSocket.on("giveMeId", (payload) => {
             expect(payload.message).toBe("Your id.");
