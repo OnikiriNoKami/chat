@@ -51,8 +51,31 @@ const userAddressMessagesController = {
             return error;
         }
     },
-
-    removeMessage: async ({user, address, messageId}) => {
+    addMessageToAddress: async ({ address, messageId }) => {
+        if (!address || !messageId) return new Error("No data provided");
+        try {
+            const userAddresses = await UserAddressMessages.find({ address });
+            if (!(userAddresses.length)) return new Error("No users with such address");
+            for(let i = 0; i < userAddresses.length; i++){
+                if (
+                    !userAddresses[i].messages.some(
+                        (message) => message.messageId.toString() === messageId
+                    )
+                ) {
+                    userAddresses[i].messages.push({
+                        messageId: mongoose.Types.ObjectId(messageId),
+                        readStatus: false,
+                    });
+                    await userAddresses[i].save();
+                }
+            }
+            return userAddresses;
+        } catch (error) {
+            console.log(error.message);
+            return error;
+        }
+    },
+    removeMessage: async ({ user, address, messageId }) => {
         if (!user || !address || !messageId)
             return new Error("No data provadide");
         try {
@@ -61,7 +84,9 @@ const userAddressMessagesController = {
                 address,
             });
             if (!userAddress) return new Error("No such user address");
-            userAddress.messages = userAddress.messages.filter(message => message.messageId.toString() !== messageId);
+            userAddress.messages = userAddress.messages.filter(
+                (message) => message.messageId.toString() !== messageId
+            );
             await userAddress.save();
             return userAddress;
         } catch (error) {
@@ -69,24 +94,24 @@ const userAddressMessagesController = {
             return error;
         }
     },
-    getByUserAndAddress: async ({user, address}) => {
-        if(!user || !address) return new Error("No data provided.");
-        try{
-            const result = await UserAddressMessages.findOne({user, address});
+    getByUserAndAddress: async ({ user, address }) => {
+        if (!user || !address) return new Error("No data provided.");
+        try {
+            const result = await UserAddressMessages.findOne({ user, address });
             return result;
-        } catch (error){
+        } catch (error) {
             console.log(error.message);
             return error;
         }
     },
-    getByUser: async(user) => {
-        if(!user) return new Error("No user provided");
-        try{
-            const result = await UserAddressMessages.find({user});
+    getByUser: async (user) => {
+        if (!user) return new Error("No user provided");
+        try {
+            const result = await UserAddressMessages.find({ user });
             return result;
-        } catch(error){
+        } catch (error) {
             console.log(error.message);
-            return error
+            return error;
         }
     },
 };
