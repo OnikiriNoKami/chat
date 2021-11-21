@@ -1,5 +1,6 @@
 import userSocketController from "./userSocketController/userSocketController";
 import events from "../utils/socketEventTypes";
+import userAddressMessagesSocketController from "./userAddressMessagesController/userAddressMessagesController";
 
 const socketController = (socket) => {
     console.log('New connection, id:', socket.id);
@@ -10,6 +11,7 @@ const socketController = (socket) => {
         socket.emit(events.hello, 'world');
     })
     userSocketController(socket);
+    userAddressMessagesSocketController(socket)
 }
 
 export default socketController;
