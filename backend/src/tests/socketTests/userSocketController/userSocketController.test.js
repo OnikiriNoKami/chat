@@ -1,4 +1,6 @@
 import Client from "socket.io-client";
+import { errorType } from '../../../errors/utils/types';
+import events from '../../../socket/utils/socketEventTypes';
 
 describe("User socket controller tests.", () => {
     let displayName, email;
@@ -16,15 +18,15 @@ describe("User socket controller tests.", () => {
                 email: "testUser@email.com",
             }
         });
-        clientSocket.on("connect", () => {
-            clientSocket.on('findUser', (payload) => {
-                expect(payload instanceof Error).toBe(false);
+        clientSocket.on(events.connect, () => {
+            clientSocket.on(events.findUser, (payload) => {
+                expect(payload.type).not.toBe(errorType);   
                 expect(payload.displayName).toBe(displayName);
                 expect(payload.email).toBe(email);
                 clientSocket.close();
                 done();
             })
-            clientSocket.emit('findUser', {email, displayName})
+            clientSocket.emit(events.findUser, {email, displayName})
         });        
     })
 
@@ -37,14 +39,13 @@ describe("User socket controller tests.", () => {
                 email: "testUser@email.com",
             }
         });
-        clientSocket.on("connect", () => {
-            clientSocket.on('findUser', (payload) => {
+        clientSocket.on(events.connect, () => {
+            clientSocket.on(events.findUser, (payload) => {
                 clientSocket.close();
-                console.log(payload)
-                expect(payload.status).toBe('error');                
+                expect(payload.type).toBe(errorType);                
                 done();
             })
-            clientSocket.emit('findUser')
+            clientSocket.emit(events.findUser)
         });
     })    
 });

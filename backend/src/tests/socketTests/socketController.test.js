@@ -1,4 +1,5 @@
 import Client from "socket.io-client";
+import  events from '../../socket/utils/socketEventTypes';
 
 describe("Socket controller tests.", () => {
     let clientSocket;
@@ -10,7 +11,7 @@ describe("Socket controller tests.", () => {
                 email: "testUser@email.com",
             }
         });
-        clientSocket.on("connect", done);
+        clientSocket.on(events.connect, done);
     });
 
     afterAll(() => {
@@ -18,19 +19,19 @@ describe("Socket controller tests.", () => {
     });
 
     test("Getting id from socket", (done) => {
-        clientSocket.on("giveMeId", (payload) => {
+        clientSocket.on(events.giveMyId, (payload) => {
             expect(payload.message).toBe("Your id.");
             expect(payload.id).not.toBeFalsy();
             done();
         });
-        clientSocket.emit("giveMeId");
+        clientSocket.emit(events.giveMyId);
     })
 
     test("Emmiting to socket.", (done) => {
-        clientSocket.on("hello", (arg) => {
+        clientSocket.on(events.hello, (arg) => {
             expect(arg).toBe("world");
             done();
         });
-        clientSocket.emit("hello", "world");
+        clientSocket.emit(events.hello, "world");
     });
 });
