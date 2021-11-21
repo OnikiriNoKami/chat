@@ -1,6 +1,7 @@
 import Client from "socket.io-client";
 import { errorType } from "../../../errors/utils/types";
-import events from "../../../socket/utils/socketEventTypes";
+import socketEvents from "../../../socket/utils/socketEventTypes";
+import events from '../../../socket/utils/socketEventTypes/userEventTypes/userEventTypes';
 
 describe("User socket controller tests.", () => {
     let clientSocket, displayName, email;
@@ -22,7 +23,7 @@ describe("User socket controller tests.", () => {
     })
 
     test("Find user, data provided", (done) => {
-        clientSocket.on(events.connect, () => {
+        clientSocket.on(socketEvents.connect, () => {
             clientSocket.on(events.findUser, (payload) => {
                 expect(payload.type).not.toBe(errorType);
                 expect(payload.displayName).toBe(displayName);
@@ -34,7 +35,7 @@ describe("User socket controller tests.", () => {
     });
 
     test("Find user, data not provided", (done) => {   
-        clientSocket.on(events.connect, () => {
+        clientSocket.on(socketEvents.connect, () => {
             clientSocket.on(events.findUser, (payload) => {
                 expect(payload.type).toBe(errorType);
                 done();
@@ -44,7 +45,7 @@ describe("User socket controller tests.", () => {
     });
 
     test("Create user. Already exist.", (done) => {
-        clientSocket.on(events.connect, () => {
+        clientSocket.on(socketEvents.connect, () => {
             clientSocket.on(events.createUser, (payload) => {
                 expect(payload.type).toBe(errorType);
                 done();
