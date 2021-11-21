@@ -1,21 +1,26 @@
 import userController from "../../../api/database/controllers/userController";
+import ApiError from "../../../errors/apiErros/apiError";
+import events from '../../utils/socketEventTypes';
+import { NO_DATA_PROVIDED } from "../../../errors/utils/errorMessages";
 const userSocketController = (socket) => {
-    socket.on("findUser", async ({ email, displayName } = {}) => {
+    socket.on(events.findUser, async ({ email, displayName } = {NO_DATA_PROVIDED}) => {
         if (!email && !displayName) {
-            socket.emit("findUser", {status: 'error', message: 'No data provided.'});
+            socket.emit(events.findUser, ApiError.badRequestSerialized());
         } else {
-            const result = await userController.findUser({
-                email,
-                displayName,
-            });
-            if(result instanceof Error){
-                socket.emit("findUser", {status: 'error', message: result.message});
-            }else {
-                socket.emit("findUser", result);
-            }
-            
+            await userController
+                .findUser({
+                    email,
+                    displayName,
+                })
+                .then((result) => {
+                    socket.emit(events.findUser, result);
+                })
+                .catch((error) => {
+                    socket.emit(events.findUser, ApiError.badRequestSerialized(error.message));
+                });
         }
     });
+
 };
 
 export default userSocketController;
