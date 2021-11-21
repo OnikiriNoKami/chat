@@ -1,6 +1,6 @@
 import userController from "../../../api/database/controllers/userController";
 import ApiError from "../../../errors/apiErros/apiError";
-import events from "../../utils/socketEventTypes";
+import events from "../../utils/socketEventTypes/userEventTypes/userEventTypes";
 import { NO_DATA_PROVIDED } from "../../../errors/utils/errorMessages";
 const userSocketController = (socket) => {
     socket.on(
